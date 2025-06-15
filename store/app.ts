@@ -20,7 +20,7 @@ interface Topic {
 }
 
 interface Document {
-  id: string
+  _id: string
   originalName: string
   size: number
   summary?: string
@@ -30,7 +30,7 @@ interface Document {
 }
 
 interface Quiz {
-  id: string
+  _id: string
   title: string
   description?: string
   sourceType: "topic" | "document" | "website"
@@ -59,7 +59,7 @@ interface Quiz {
 }
 
 interface Chat {
-  id: string
+  _id: string
   title: string
   type: "topic" | "document" | "website" | "general"
   sourceId?: string
@@ -75,7 +75,7 @@ interface Chat {
 }
 
 interface Website {
-  id: string
+  _id: string
   url: string
   title?: string
   summary?: string
@@ -163,11 +163,11 @@ export const useAppStore = create<AppState>((set) => ({
   addDocument: (document) => set((state) => ({ documents: [document, ...state.documents] })),
   updateDocument: (id, updatedDocument) =>
     set((state) => ({
-      documents: state.documents.map((doc) => (doc.id === id ? { ...doc, ...updatedDocument } : doc)),
+      documents: state.documents.map((doc) => (doc._id === id ? { ...doc, ...updatedDocument } : doc)),
     })),
   removeDocument: (id) =>
     set((state) => ({
-      documents: state.documents.filter((doc) => doc.id !== id),
+      documents: state.documents.filter((doc) => doc._id !== id),
     })),
 
   // Quiz actions
@@ -175,7 +175,7 @@ export const useAppStore = create<AppState>((set) => ({
   addQuiz: (quiz) => set((state) => ({ quizzes: [quiz, ...state.quizzes] })),
   removeQuiz: (id) =>
     set((state) => ({
-      quizzes: state.quizzes.filter((quiz) => quiz.id !== id),
+      quizzes: state.quizzes.filter((quiz) => quiz._id !== id),
     })),
 
   // Chat actions
@@ -183,11 +183,11 @@ export const useAppStore = create<AppState>((set) => ({
   addChat: (chat) => set((state) => ({ chats: [chat, ...state.chats] })),
   updateChat: (id, updatedChat) =>
     set((state) => ({
-      chats: state.chats.map((chat) => (chat.id === id ? { ...chat, ...updatedChat } : chat)),
+      chats: state.chats.map((chat) => (chat._id === id ? { ...chat, ...updatedChat } : chat)),
     })),
   removeChat: (id) =>
     set((state) => ({
-      chats: state.chats.filter((chat) => chat.id !== id),
+      chats: state.chats.filter((chat) => chat._id !== id),
     })),
 
   // Website actions
@@ -195,11 +195,11 @@ export const useAppStore = create<AppState>((set) => ({
   addWebsite: (website) => set((state) => ({ websites: [website, ...state.websites] })),
   updateWebsite: (id, updatedWebsite) =>
     set((state) => ({
-      websites: state.websites.map((site) => (site.id === id ? { ...site, ...updatedWebsite } : site)),
+      websites: state.websites.map((site) => (site._id === id ? { ...site, ...updatedWebsite } : site)),
     })),
   removeWebsite: (id) =>
     set((state) => ({
-      websites: state.websites.filter((site) => site.id !== id),
+      websites: state.websites.filter((site) => site._id !== id),
     })),
 
   // Loading actions

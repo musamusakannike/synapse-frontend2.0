@@ -15,7 +15,7 @@ import { ArrowLeft, MessageSquare, Trophy, Trash2 } from "lucide-react"
 import toast from "react-hot-toast"
 
 interface Topic {
-  id: string
+  _id: string
   title: string
   description?: string
   content: string
@@ -64,7 +64,7 @@ export default function TopicDetailPage() {
 
     try {
       setIsGeneratingQuiz(true)
-      const response = await quizzesApi.fromTopic(topic.id, {
+      const response = await quizzesApi.fromTopic(topic._id, {
         numberOfQuestions: 10,
         difficulty: "mixed",
         includeCalculations: topic.customizations.includeCalculations,
@@ -83,7 +83,7 @@ export default function TopicDetailPage() {
     if (!topic || !confirm(`Are you sure you want to delete "${topic.title}"?`)) return
 
     try {
-      await topicsApi.delete(topic.id)
+      await topicsApi.delete(topic._id)
       toast.success("Topic deleted successfully")
       router.push("/dashboard/topics")
     } catch (error) {
