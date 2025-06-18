@@ -39,6 +39,7 @@ export default function NewQuizPage() {
     formState: { errors },
     setValue,
     watch,
+    trigger,
   } = useForm<QuizForm>({
     resolver: zodResolver(quizSchema),
     defaultValues: {
@@ -46,6 +47,7 @@ export default function NewQuizPage() {
       numberOfQuestions: 10,
       difficulty: "mixed",
       includeCalculations: false,
+      sourceId: "",
     },
   })
 
@@ -83,14 +85,17 @@ export default function NewQuizPage() {
         case "topic":
           response = await topicsApi.getAll({ limit: 100 })
           setSources(response.data.topics || [])
+          console.log(JSON.stringify(response.data.topics, null, 2))
           break
         case "document":
           response = await documentsApi.getAll({ limit: 100 })
           setSources((response.data.documents || []).filter((doc: any) => doc.processingStatus === "completed"))
+          console.log(JSON.stringify(response.data.documents, null, 2))
           break
         case "website":
           response = await websitesApi.getAll({ limit: 100 })
           setSources((response.data.websites || []).filter((site: any) => site.processingStatus === "completed"))
+          console.log(JSON.stringify(response.data.websites, null, 2))
           break
       }
     } catch (error) {
@@ -219,7 +224,13 @@ export default function NewQuizPage() {
                     <LoadingSpinner size="sm" />
                   </div>
                 ) : (
-                  <Select value={watchedSourceId} onValueChange={(value) => setValue("sourceId", value)}>
+                  <Select 
+                    value={watchedSourceId || ""} 
+                    onValueChange={async (value) => {
+                      setValue("sourceId", value);
+                      await trigger("sourceId");
+                    }}
+                  >
                     <SelectTrigger className={errors.sourceId ? "border-red-500" : ""}>
                       <SelectValue placeholder={`Select a ${watchedSourceType}`} />
                     </SelectTrigger>
@@ -227,7 +238,7 @@ export default function NewQuizPage() {
                       {sources.map((source) => {
                         const Icon = getSourceIcon(watchedSourceType)
                         return (
-                          <SelectItem key={source.id} value={source.id}>
+                          <SelectItem key={source._id} value={source._id}>
                             <div className="flex items-center">
                               <Icon className="h-4 w-4 mr-2" />
                               {getSourceName(source, watchedSourceType)}
