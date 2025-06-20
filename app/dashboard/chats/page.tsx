@@ -51,7 +51,7 @@ export default function ChatsPage() {
   const handleCreateChat = async () => {
     try {
       const response = await chatsApi.create("New Chat")
-      router.push(`/dashboard/chats/${response.data.chat.id}`)
+      router.push(`/dashboard/chats/${response.data.chat._id}`)
     } catch (error) {
       toast.error("Failed to create chat")
     }
@@ -129,7 +129,7 @@ export default function ChatsPage() {
               {chats.map((chat) => {
                 const SourceIcon = getSourceIcon(chat.type)
                 return (
-                  <Card key={chat._id} className="hover:shadow-lg transition-shadow">
+                  <Card key={chat.id} className="hover:shadow-lg transition-shadow">
                     <CardHeader>
                       <div className="flex items-start justify-between">
                         <div className="flex-1">
@@ -166,13 +166,13 @@ export default function ChatsPage() {
                         <span>Last activity {formatDate(chat.lastActivity)}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Link href={`/dashboard/chats/${chat._id}`} className="flex-1">
+                        <Link href={`/dashboard/chats/${chat.id}`} className="flex-1">
                           <Button variant="outline" size="sm" className="w-full">
                             <MessageSquare className="h-4 w-4 mr-2" />
                             Continue
                           </Button>
                         </Link>
-                        <Button variant="outline" size="sm" onClick={() => handleDelete(chat._id, chat.title)}>
+                        <Button variant="outline" size="sm" onClick={() => handleDelete(chat.id || chat._id, chat.title)}>
                           <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>

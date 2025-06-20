@@ -60,6 +60,7 @@ interface Quiz {
 
 interface Chat {
   _id: string
+  id?: string
   title: string
   type: "topic" | "document" | "website" | "general"
   sourceId?: string
