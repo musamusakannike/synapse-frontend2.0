@@ -118,8 +118,8 @@ export default function TopicDetailPage() {
     <DashboardLayout>
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="flex justify-start items-center space-x-4">
             <Button variant="ghost" size="icon" onClick={() => router.back()}>
               <ArrowLeft className="h-4 w-4" />
             </Button>
@@ -131,17 +131,17 @@ export default function TopicDetailPage() {
           <div className="flex items-center space-x-2">
             {topic.chatId && (
               <Link href={`/dashboard/chats/${topic.chatId}`}>
-                <Button variant="outline">
+                <Button className="flex items-center justify-center" variant="outline">
                   <MessageSquare className="h-4 w-4 mr-2" />
-                  Chat
+                  <span className="hidden md:inline">Chat</span>
                 </Button>
               </Link>
             )}
-            <Button onClick={handleGenerateQuiz} disabled={isGeneratingQuiz}>
+            <Button className="flex items-center justify-center" onClick={handleGenerateQuiz} disabled={isGeneratingQuiz}>
               {isGeneratingQuiz ? <LoadingSpinner size="sm" className="mr-2" /> : <Trophy className="h-4 w-4 mr-2" />}
-              Generate Quiz
+              <span className="hidden md:inline">Generate Quiz</span>
             </Button>
-            <Button variant="outline" onClick={handleDelete}>
+            <Button className="flex items-center justify-center" variant="outline" onClick={handleDelete}>
               <Trash2 className="h-4 w-4" />
             </Button>
           </div>
